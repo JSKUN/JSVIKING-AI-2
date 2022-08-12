@@ -1,2 +1,6 @@
+ascii_magic==1.6
 Pillow==9.2.0
+playsound==1.2.2
+pydub==0.25.1
 pyfiglet==0.8.post1
+
