@@ -81,16 +81,16 @@ try:
 
     hapus()
 
-    print(pyfiglet.figlet_format('Jsviking AI 2'))
-    print('Sumber code bisa lihat sini: https://github.com/JSKUN/JSVIKING-AI-2.git')
-    print('Loading Harap Tunggu ...')
+    print(Fore.YELLOW+pyfiglet.figlet_format('Jsviking AI 2'))
+    print(Fore.GREEN+'Sumber code bisa lihat sini: https://github.com/JSKUN/JSVIKING-AI-2.git')
+    print(Fore.GREEN+'Loading Harap Tunggu ...')
     print(' ')
     time.sleep(2)
 
-    nama = input('[None:None] Masukkan nama: ')
+    nama = input(f'{Fore.GREEN}[{Fore.YELLOW}None:None{Fore.GREEN}] {Fore.YELLOW}Masukkan nama{Fore.GREEN}: ')
     if nama == '':
         nama = 'None'
-    password = input(f'[{nama.capitalize()}:None] Masukkan password: ')
+    password = input(f'{Fore.GREEN}[{Fore.YELLOW}{nama.capitalize()}:None{Fore.GREEN}] {Fore.YELLOW}Masukkan password{Fore.GREEN}: ')
 
     hapus()
 
@@ -584,4 +584,4 @@ try:
             pass    
 except KeyboardInterrupt:
     hapus()
-    print('Pass')        
+    print('Pass')           
