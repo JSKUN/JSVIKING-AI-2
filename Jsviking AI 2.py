@@ -1,3 +1,6 @@
+from http.client import InvalidURL
+
+
 try:
     import os
     from PIL import Image, ImageFilter
@@ -20,6 +23,10 @@ try:
     import pywhatkit
     import wikipedia
     from colorama import init, Fore, Back, Style
+    import requests
+    import random
+    from easygui import *
+    from io import BytesIO
     init()
     tolak = 'Anda membutuhkan Password untuk mengakses file :)'
 
@@ -48,17 +55,6 @@ try:
         img2 = img.resize((width,height))
         img2.save('img2.png')
 
-    def color(img):
-        img = Image.open(img)
-        w,h = img.size
-        img2 = Image.new(('RGBA'),(w,h))
-        for wi in range(w):
-            for he in range(h):
-                r, g, b = img.getpixel((wi,he))
-                gray = int(r * 0.212 + g * 0.715 + b * 0.0746)
-                img2.putpixel((wi, he), (gray, gray,gray,255))
-        img2.save('img2.png')
-
     def enhancer(name,enhance_type):
         if enchanche == 1:
             enchanche2 = name.filter(ImageFilter.BLUR)
@@ -82,6 +78,7 @@ try:
     hapus()
 
     print(Fore.YELLOW+pyfiglet.figlet_format('Jsviking AI 2'))
+    print(Fore.GREEN+'Ditenagai oleh: '+sys.platform)
     print(Fore.GREEN+'Sumber code bisa lihat sini: https://github.com/JSKUN/JSVIKING-AI-2.git')
     print(Fore.GREEN+'Loading Harap Tunggu ...')
     print(' ')
@@ -417,19 +414,6 @@ try:
                     print(tolak)
                 print(' ')
 
-            elif Perintah.capitalize() == 'Gray':
-                pwchecker = input('Masukkan password: ')
-                if pwchecker == password:
-                    try:
-                        hapus()
-                        img = str(input('Masukkan gambar: '))
-                        color(img)
-                    except KeyboardInterrupt:
-                        print('Pass')
-                else:
-                    print(tolak)
-                print(' ')
-
             elif Perintah.capitalize() == 'Pip':
                 print('1 = List \n2 = Install \n3 = Uninstall \n4 = Update')
                 pilihan = str(input('Pilihan: '))
@@ -575,13 +559,46 @@ try:
                             else:
                                 wifi_profile["password"] = password[1]
                                 wifi_list.append(wifi_profile)
-
                 for x in range(len(wifi_list)):
                     print(wifi_list[x])
                 print(' ')
+
+            elif Perintah.capitalize() == 'Gambar':
+                linklist = ['https://i1.wp.com/f1-styx.imgix.net/article/2019/02/23232800/Taman-bunga-Keukenhof.jpg?fit=1200%2C800&ssl=1','https://i0.wp.com/i.redd.it/6eoud7lwiq951.jpg?ssl=1','https://th.bing.com/th/id/R.b7e6cceac3582c4ea352d2bf3738f784?rik=oVZxMyXt5RPeYg&riu=http%3a%2f%2fadwallpapers.xyz%2fuploads%2fposts%2f75941-penguins-colony-antarctica-4k-ultra-hd-wallpaper__animals.jpg&ehk=N5Y0PMsmtUCGzJrpdfSXfbSiNd0kuQHr8eNDp4V3jm8%3d&risl=&pid=ImgRaw&r=0','https://i.pinimg.com/originals/c0/8d/eb/c08deb988aa5372969747aff198ff65b.jpg','https://lh6.googleusercontent.com/proxy/yra_TDI317eS6oD7ENw6VUVlqAFGWZN3_vwtJ_v1nBxLho6kPgHo2EOswx3mqVsZGg2xwI-VuGuWjl1Z-PmY8qIXNF6Y8LW_mSaxcrEYwHlwT8OE9YckbufiF3_PaT22YB_yNoLhhVhSW4m3O7RHYIPJKVp1RJ-9lT_lJGch8N8uy9L9rmXIC9OLO-Mof7YXZwUudRTjfpJV1A=w1200-h630-p-k-no-nu',
+                'https://1.bp.blogspot.com/-SjGt3sPbxaI/Uo3Di6S39DI/AAAAAAAAIDo/7xo0U0OMPD8/s1600/Undersea14.jpg','https://res.cloudinary.com/midoffice/image/upload/c_thumb,h_400,w_500/v1/production/5d5a70dd23ca8c00281c801c/tauchbasis-aegypten-extra-divers-dahab-tauchen-riff-korallen_09bb00e7-a849-4637-b797-5a79939894b9']
+                print(f'File akan ditampilkan secara acak, total gambar {len(linklist)}')
+                while True:                    
+                    link = random.choice(linklist)
+                    response = requests.get(link)
+                    img = Image.open(BytesIO(response.content))
+                    img2 = img.resize((800, 600))
+                    img2.save('img.png')
+                    gambar = buttonbox(title='JsvikingAI2', image='img.png',choices=['Selanjutnya','Keluar'])
+                    if str(gambar) == 'Keluar':
+                        os.remove('img.png')
+                        break
+                print(' ')
+
+            elif Perintah.capitalize() == 'Html':
+                try:
+                    link = input('Masukkan link: ')
+                    r = requests.get(link)
+                    print("Status Kode:", r.status_code)
+                    print("URL:", r.url)
+                    print("HTML:\n", r.text)
+                except:
+                    print('Kesalahan URL\n')
+
+            elif Perintah.capitalize() == 'Ping':
+                link = input('Masukkan link: ')
+                os.system(f'ping {link}')
+                print(' ')
         except KeyboardInterrupt:
             print(' ')
+            pass
+        except FileNotFoundError:
+            print('File tidak ditemukan')
             pass    
 except KeyboardInterrupt:
     hapus()
-    print('Pass')           
+    print('Pass')        
